@@ -76,7 +76,7 @@ from sklearn.model_selection import train_test_split, KFold
 from sklearn.metrics import accuracy_score, log_loss
 ```
 
-##2. データの準備
+## 2. データの準備
 訓練データとテストデータを準備します。特徴量とターゲット変数を分けます。
 ```
 X = train_df.drop('Survived', axis=1)
@@ -84,13 +84,13 @@ y = train_df['Survived']
 test_X = test_df
 ```
 
-##3. データの分割
+## 3. データの分割
 訓練データを訓練セットと検証セットに分割します。これにより、モデルの性能を評価することができます。
 ```
 X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size=0.2, random_state=42)
 ```
 
-##4. モデルの訓練
+## 4. モデルの訓練
 LightGBMのデータセット形式に変換します。
 ```
 train_data = lgb.Dataset(X_train, label=y_train)
@@ -119,7 +119,7 @@ model = lgb.train(params, train_data, valid_sets=[train_data, valid_data], num_b
 ```
 
 
-##5. モデルの評価
+## 5. モデルの評価
 訓練が完了したら、検証データを使ってモデルの性能を評価します。
 ```
 y_pred = model.predict(X_valid, num_iteration=model.best_iteration)
@@ -130,7 +130,7 @@ print(f'Validation Log Loss: {logloss}')
 print(f'Validation Accuracy: {accuracy}')
 ```
 
-##6. 予測の実行
+## 6. 予測の実行
 テストデータに対して予測を行い、提出用のファイルを作成します。
 ```
 test_pred = model.predict(test_X, num_iteration=model.best_iteration)
@@ -138,7 +138,7 @@ submission = pd.DataFrame({'PassengerId': test_df.index, 'Survived': (test_pred 
 submission.to_csv('submission.csv', index=False)
 ```
 
-##7. 交差検証
+## 7. 交差検証
 KFoldを使って交差検証を行い、モデルの性能を安定化させます。
 ```
 kf = KFold(n_splits=5)
@@ -176,10 +176,10 @@ preds_mean = np.mean(preds_array, axis=0)
 訓練済みモデルを使用してテストデータの予測を行っています。
 複数のモデルの予測結果を平均化して最終的な予測を行っています
 
-##K分割交差検証の具体的な手順
+## K分割交差検証の具体的な手順
 以下は、具体的にLightGBMを使用してK分割交差検証を行う手順です。
 
-##1. ライブラリのインポート
+## 1. ライブラリのインポート
 ```
 import lightgbm as lgb
 from sklearn.model_selection import KFold
@@ -187,7 +187,7 @@ from sklearn.metrics import accuracy_score, log_loss
 import numpy as np
 ```
 
-##2. データの準備
+## 2. データの準備
 特徴量とターゲット変数を準備します。
 ```
 X = train_df.drop('Survived', axis=1)
@@ -196,7 +196,7 @@ test_X = test_df
 
 ```
 
-##3. パラメータの設定
+## 3. パラメータの設定
 LightGBMのパラメータを設定します。
 ```
 params = {
@@ -213,13 +213,13 @@ params = {
 }
 ```
 
-##4. KFoldの設定
+## 4. KFoldの設定
 KFoldを使用してデータをK個に分割します。
 ```
 kf = KFold(n_splits=5, shuffle=True, random_state=42)
 ```
 
-##5. モデルの訓練と評価
+## 5. モデルの訓練と評価
 各フォールドごとにモデルを訓練し、検証します。
 ```
 models = []
@@ -251,7 +251,7 @@ print(f'Average Log Loss: {average_logloss}')
 print(f'Average Accuracy: {average_accuracy}')
 ```
 
-##6. テストデータの予測
+## 6. テストデータの予測
 全てのモデルを使用してテストデータの予測を行い、その結果を平均化します。
 ```
 preds = []
@@ -266,7 +266,7 @@ submission = pd.DataFrame({'PassengerId': test_df.index, 'Survived': (preds_mean
 submission.to_csv('submission.csv', index=False)
 ```
 
-##まとめ
+## まとめ
 この方法では、K分割交差検証を使用して複数のモデルを訓練し、それぞれのモデルの性能を評価することで、データ全体に対するモデルの一般化性能を高めることができます。さらに、最終的な予測は複数のモデルの予測を平均化することで安定化されます。これにより、過剰適合（オーバーフィッティング）を防ぎ、より信頼性の高い予測が可能となります。
 
 
