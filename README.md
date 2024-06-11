@@ -14,10 +14,10 @@
 
 Age、Embarked、Fareなどの欠損値を補完しています。
 例えば、Ageは平均値や中央値、あるいはグループごとの中央値などで補完されることがあります。
-
+```
 train_df['Age'].fillna(train_df['Age'].median(), inplace=True)
 test_df['Age'].fillna(test_df['Age'].median(), inplace=True)
-
+```
 ## カテゴリカルデータの変換：
 
 Sex、Embarkedなどのカテゴリカルデータを数値データに変換しています。
